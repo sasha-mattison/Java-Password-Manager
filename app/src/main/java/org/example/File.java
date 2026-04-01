@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class File {
-    
+
     private String filePath;
     private Path path;
 
@@ -24,47 +24,51 @@ public class File {
     }
 
     void write(String string) throws IOException {
-        if(!checkFile())
+        if (!checkFile())
             return;
-        
+
         String content = read();
-        content = content.concat(" " + string);
+        content = content.concat(string);
         Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
     }
 
     void Ewrite(String string, String password) throws IOException {
-        if(!checkFile())
+        if (!checkFile())
             return;
-        
-        String content = read();
-        content = content.concat(" " + string);
-        Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
 
+        decrypt(password);
+        String content = read();
+        content = content.concat(string);
+        Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
         encrypt(password);
     }
 
-    String read() throws IOException{
-        if(!checkFile())
+    String read() throws IOException {
+        if (!checkFile())
             return null;
 
         return Files.readString(this.path);
     }
+
     void remove(String string) throws IOException {
-        if(!checkFile())
+        if (!checkFile())
             return;
 
         String content = Files.readString(this.path);
         content = content.replace(string, "");
         Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
-
     }
 
-    void replace(String string, String string2) throws IOException {
-        if(!checkFile())
+    void replace(String oldString, String newString) throws IOException {
+        if (!checkFile())
             return;
 
         String content = Files.readString(this.path);
-        content = content.replace(string, string2);
+        content = content.replace(oldString, newString);
+        Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
+    }
+
+    void writeAll(String content) throws IOException {
         Files.write(this.path, content.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -107,8 +111,6 @@ public class File {
         Files.writeString(this.path, String.valueOf(contentArray));
     }
 
-
-
     void decrypt(String encryptionKey) throws IOException {
         if (!checkFile()) return;
 
@@ -127,7 +129,7 @@ public class File {
         Files.writeString(this.path, String.valueOf(contentArray));
     }
 
-    private boolean checkFile() throws IOException {
+    private boolean checkFile() {
         return Files.exists(this.path);
     }
 
@@ -138,9 +140,4 @@ public class File {
     Path getPath() {
         return this.path;
     }
-
-
-
-
-    
 }
