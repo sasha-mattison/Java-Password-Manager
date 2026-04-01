@@ -15,15 +15,14 @@ public class JPass {
 
         switch (args[0]) {
             case "add":
-                if (!checkArgs(3, args)) {
+                if (!checkArgs(2, args)) {
                     returnUsage();
                     return;
                 }
 
                 account = args[1];
-                password = args[2];
 
-                commands.add(account, password);
+                commands.add(account);
                 break;
             case "check":
                 if (!checkArgs(2, args)) {

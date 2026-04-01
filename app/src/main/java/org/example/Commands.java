@@ -6,14 +6,17 @@ import java.util.Scanner;
 
 public class Commands {
 
-    private static final String ENCRYPTION_KEY = "";
+    private static final String ENCRYPTION_KEY = "testkey";
     private File accounts = new File(System.getProperty("user.home") + "/.config/jpass/accounts.txt");
+    private final Scanner scanner = new Scanner(System.in);
 
     public Commands() {}
 
-    public void add(String account, String password) {
+    public void add(String account) {
         try {
             accounts.create();
+            System.out.println("Enter Password: ");
+            String password = scanner.next().strip();
             accounts.Ewrite(formatAccData(account, password), ENCRYPTION_KEY);
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,7 +125,6 @@ public class Commands {
     }
 
     private boolean confirmation() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Confirm? (y|N): ");
         String reply = scanner.next();
         reply = reply.toLowerCase();
