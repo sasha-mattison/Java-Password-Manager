@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Commands {
 
     private static final String ENCRYPTION_KEY = "";
-    private File accounts = new File("accounts.txt");
+    private File accounts = new File(System.getProperty("user.home") + "/.config/jpass/accounts.txt");
 
     public Commands() {}
 

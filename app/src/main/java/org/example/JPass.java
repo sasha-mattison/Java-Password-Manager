@@ -2,7 +2,7 @@ package org.example;
 
 public class JPass {
 
-    private final static String versionNumber = "0.0.1 ALPHA";
+    private final static String versionNumber = "0.0.2 ALPHA";
 
     public static void main(String[] args) {
         Commands commands = new Commands();
@@ -48,7 +48,7 @@ public class JPass {
                 }
 
                 for (String x : commands.list()) {
-                    System.out.println(x);
+                    System.out.println("    " + x);
                 }
                 break;
             case "help":
@@ -61,7 +61,8 @@ public class JPass {
                     + "\n\nCommand List:\n"
                     + "add - Saves an account and password\n"
                     + "check - Checks for a password linked to an account and returns it\n"
-                    + "remove - Removes an account and related password\n");
+                    + "remove - Removes an account and related password\n"
+                    + "list - Lists all accounts saved. Passwords are not listed\n");
                 break;
             default:
                 returnUsage();
