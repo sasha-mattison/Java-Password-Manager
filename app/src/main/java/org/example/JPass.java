@@ -2,7 +2,7 @@ package org.example;
 
 public class JPass {
 
-    private final static String versionNumber = "0.0.2 ALPHA";
+    private final static String versionNumber = "0.0.3 ALPHA";
 
     public static void main(String[] args) {
         Commands commands = new Commands();
