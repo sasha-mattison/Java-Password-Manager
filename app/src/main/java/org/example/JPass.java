@@ -41,6 +41,16 @@ public class JPass {
                 account = args[1];
                 commands.remove(account);
                 break;
+            case "list":
+                if (!checkArgs(1, args)) {
+                    returnUsage();
+                    return;
+                }
+
+                for (String x : commands.list()) {
+                    System.out.println(x);
+                }
+                break;
             case "help":
                 if (!checkArgs(1, args)) {
                     returnUsage();

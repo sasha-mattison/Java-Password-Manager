@@ -1,11 +1,12 @@
 package org.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Commands {
 
-    private static final String ENCRYPTION_KEY = "jpass_key";
+    private static final String ENCRYPTION_KEY = "";
     private File accounts = new File("accounts.txt");
 
     public Commands() {}
@@ -24,14 +25,14 @@ public class Commands {
             String content = accounts.Eread(ENCRYPTION_KEY);
 
             if (content == null || !content.contains(account))
-                return "Account not found.";
+                return "Account not found";
 
             int charOfAccount = content.indexOf(account) + account.length() + 1;
             return readUntil(content, charOfAccount, '}');
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "Error reading accounts.";
+            return "Error reading accounts";
         }
     }
 
@@ -73,6 +74,30 @@ public class Commands {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public String[] list() {
+        try {
+            String content = accounts.Eread(ENCRYPTION_KEY);
+            ArrayList<Integer>indices = new ArrayList<>();
+
+            for (int i = 0; i < content.length(); i++) {
+                if(content.charAt(i) == '{') {
+                    indices.add(i);
+                }
+            }
+
+            String[] accountList = new String[indices.size()];
+
+            for (int i = 0; i < indices.size(); i++) {
+                accountList[i] = readUntil(content, indices.get(i)+1, ',');
+            }
+
+            return accountList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
