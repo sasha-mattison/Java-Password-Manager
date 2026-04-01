@@ -6,12 +6,14 @@ public class JPass {
 
     public static void main(String[] args) {
         Commands commands = new Commands();
-        String account, password;
+        String account;
 
         if (args.length == 0) {
             returnUsage();
             System.exit(0);
         }
+
+        commands.init();
 
         switch (args[0]) {
             case "add":
@@ -49,6 +51,12 @@ public class JPass {
                 for (String x : commands.list()) {
                     System.out.println("    " + x);
                 }
+                break;
+            case "newkey":
+                if (!checkArgs(1, args))
+                    return;
+
+                commands.setNewEncryptionKey();
                 break;
             case "help":
                 if (!checkArgs(1, args)) {

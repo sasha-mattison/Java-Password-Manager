@@ -6,13 +6,27 @@ import java.util.Scanner;
 
 public class Commands {
 
-    private static final String ENCRYPTION_KEY = "testkey";
+    private static String ENCRYPTION_KEY;
     private File accounts = new File(System.getProperty("user.home") + "/.config/jpass/accounts.txt");
+    private File userData = new File(System.getProperty("user.home") + "/.config/jpass/userdata.txt");
     private final Scanner scanner = new Scanner(System.in);
 
     public Commands() {}
 
-    public void add(String account) {
+    void init() {
+        try {
+            //String[] content = userData.read().split(".");
+            
+            String content = userData.read();
+            if  (content == null)
+                content = "";
+            ENCRYPTION_KEY = content;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void add(String account) {
         try {
             accounts.create();
             System.out.println("Enter Password: ");
@@ -23,7 +37,7 @@ public class Commands {
         }
     }
 
-    public String check(String account) {
+    String check(String account) {
         try {
             String content = accounts.Eread(ENCRYPTION_KEY);
 
@@ -39,7 +53,7 @@ public class Commands {
         }
     }
 
-    public void remove(String account) {
+    void remove(String account) {
         try {
             String content = accounts.Eread(ENCRYPTION_KEY);
 
@@ -80,7 +94,7 @@ public class Commands {
         }
     }
 
-    public String[] list() {
+    String[] list() {
         try {
             String content = accounts.Eread(ENCRYPTION_KEY);
             ArrayList<Integer>indices = new ArrayList<>();
@@ -102,6 +116,25 @@ public class Commands {
             e.printStackTrace();
             return null;
         }
+    }
+
+    void setNewEncryptionKey() {
+        System.out.println("Enter new encryption key: ");
+        String newKey = scanner.next().strip();
+        
+        if (!confirmation())
+            return;
+
+        try {
+            String content = userData.read();
+            content = content.replace(ENCRYPTION_KEY, newKey);
+            userData.erase();
+            userData.write(content);
+            ENCRYPTION_KEY= newKey;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String formatAccData(String account, String password) {

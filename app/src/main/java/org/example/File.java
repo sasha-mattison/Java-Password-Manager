@@ -82,7 +82,7 @@ public class File {
         return content;
     }
 
-    private void erase() throws IOException {
+    void erase() throws IOException {
         Files.write(this.path, "".getBytes(StandardCharsets.UTF_8));
     }
 
