@@ -26,25 +26,25 @@ public class Commands {
         }
     }
 
-    void add(String account) {
+    void add(User user) {
         try {
             accounts.create();
             System.out.println("Enter Password: ");
             String password = scanner.next().strip();
-            accounts.Ewrite(formatAccData(account, password), ENCRYPTION_KEY);
+            accounts.Ewrite(formatAccData(user.getAccount(), password), ENCRYPTION_KEY);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    String check(String account) {
+    String check(User user) {
         try {
             String content = accounts.Eread(ENCRYPTION_KEY);
 
-            if (content == null || !content.contains(account))
+            if (content == null || !content.contains(user.getAccount()))
                 return "Account not found";
 
-            int charOfAccount = content.indexOf(account) + account.length() + 1;
+            int charOfAccount = content.indexOf(user.getAccount()) + user.getAccount().length() + 1;
             return readUntil(content, charOfAccount, '}');
 
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class Commands {
         }
     }
 
-    void remove(String account) {
+    void remove(User user) {
         try {
             String content = accounts.Eread(ENCRYPTION_KEY);
 
@@ -62,7 +62,7 @@ public class Commands {
                 return;
             }
 
-            String search = "{" + account + ",";
+            String search = "{" + user.getAccount() + ",";
             int start = content.indexOf(search);
 
             if (start == -1) {
@@ -87,7 +87,7 @@ public class Commands {
             accounts.writeAll(content);
             accounts.encrypt(ENCRYPTION_KEY);
 
-            System.out.println("Removed: " + account);
+            System.out.println("Removed: " + user.getAccount());
 
         } catch (IOException e) {
             e.printStackTrace();
